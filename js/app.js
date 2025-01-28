@@ -19,7 +19,6 @@ function generateFriendList() {
         return;
     }
 
-
     if (listOfNames.innerHTML !== '') {
         listOfNames.innerHTML += ', '
     }
@@ -29,8 +28,8 @@ function generateFriendList() {
     getElements('nome-amigo').value = '';
 }
 
-function shuffleArray() {
-    friendsArray.filter(name => name !== '');
+function shuffleArray(array) {
+    let shuffledArray = [...array];
 
     // The Durstenfeld Shuffle ES6
     for (let i = friendsArray.length -1; i >= 0; i--) {
@@ -38,28 +37,27 @@ function shuffleArray() {
         [friendsArray[i], friendsArray[j]] = [friendsArray[j], friendsArray[i]];
     }
 
-    return friendsArray;
+    return shuffledArray;
 }
 
 function generateGiftingList() {
-    let shuffledArray = shuffleArray();
-    let raffleList = getElements('lista-sorteio')
-
     if (friendsArray.length < 3) {
         alert('Adiciona no minimo 3 pessoas na lista');
         return;
     }
 
-    if (raffleList.innerHTML == '' ) {
-        for (i = 0; i < shuffledArray.length; i++) {
-            if (i + 1 == shuffledArray.length) {
-                raffleList.innerHTML += `<li>${shuffledArray[i]} -> ${shuffledArray[0]}</li>`
-            } else {
-                raffleList.innerHTML += `<li>${shuffledArray[i]} -> ${shuffledArray[i+1]}</li>`
-            }        
-        }
-    } else {
-        return;
+    let raffleList = getElements('lista-sorteio')
+
+    raffleList.innerHTML = '';
+
+    let shuffledArray = shuffleArray(friendsArray);
+
+    for (i = 0; i < shuffledArray.length; i++) {
+        if (i + 1 == shuffledArray.length) {
+            raffleList.innerHTML += `<li>${shuffledArray[i]} -> ${shuffledArray[0]}</li>`
+        } else {
+            raffleList.innerHTML += `<li>${shuffledArray[i]} -> ${shuffledArray[i+1]}</li>`
+        }        
     }
 }
 
