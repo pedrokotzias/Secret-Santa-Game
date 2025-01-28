@@ -42,7 +42,7 @@ function shuffleArray(array) {
 
 function generateGiftingList() {
     if (friendsArray.length < 3) {
-        alert('Adiciona no minimo 3 pessoas na lista');
+        alert('Adicionar no minimo 3 pessoas na lista');
         return;
     }
 
