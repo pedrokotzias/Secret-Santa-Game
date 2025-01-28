@@ -13,8 +13,7 @@ function generateFriendList() {
         return;
     }
 
-    let currentNames = listOfNames.innerHTML.split(', ');
-    if (currentNames.includes(names)) {
+    if (friendsArray.includes(names)) {
         alert('Este nome já foi adicionado');
         return;
     }
@@ -23,18 +22,36 @@ function generateFriendList() {
         listOfNames.innerHTML += ', '
     }
 
-    listOfNames.innerHTML += names;
+    listOfNames.innerHTML += `<span>${names}</span>`;
     friendsArray.push(names);
     getElements('nome-amigo').value = '';
 }
+
+function removeFriend(event) {
+    let clickedName = event.target;
+
+    if (clickedName.tagName === 'SPAN') {
+        let nameToRemove = clickedName.textContent;
+
+        friendsArray = friendsArray.filter(name => name !== nameToRemove);
+
+        let listOfNames = getElements('lista-amigos');
+        listOfNames.innerHTML = friendsArray.map(name => `<span>${name}</span>`).join(', ');
+
+        if (friendsArray.length === 0) {
+            listOfNames.innerHTML = '';
+        }
+    }
+}
+
 
 function shuffleArray(array) {
     let shuffledArray = [...array];
 
     // The Durstenfeld Shuffle ES6
-    for (let i = friendsArray.length -1; i >= 0; i--) {
+    for (let i = shuffledArray.length -1; i >= 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [friendsArray[i], friendsArray[j]] = [friendsArray[j], friendsArray[i]];
+        [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
     }
 
     return shuffledArray;
@@ -72,7 +89,10 @@ function sortear() {
 }
 
 function reiniciar() {
+    event.preventDefault();
     getElements('lista-amigos').innerHTML = '';
     getElements('lista-sorteio').innerHTML = '';
     friendsArray = [];
 }
+
+getElements('lista-amigos').addEventListener('click', removeFriend);
