@@ -1,3 +1,5 @@
+let friendsArray = [];
+
 function getElements(id) {
     return document.getElementById(`${id}`);
 };
@@ -17,37 +19,36 @@ function generateFriendList() {
         return;
     }
 
+
     if (listOfNames.innerHTML !== '') {
         listOfNames.innerHTML += ', '
     }
 
     listOfNames.innerHTML += names;
+    friendsArray.push(names);
     getElements('nome-amigo').value = '';
 }
 
-function generateArray() {
-    let listOfNames = getElements('lista-amigos').innerHTML.trim();
-
-    let array = listOfNames.split(', ').filter(name => name !== '');
-
-    return array;
-}
-
 function shuffleArray() {
-    let array = generateArray();
-    
+    friendsArray.filter(name => name !== '');
+
     // The Durstenfeld Shuffle ES6
-    for (let i = array.length -1; i >= 0; i--) {
+    for (let i = friendsArray.length -1; i >= 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+        [friendsArray[i], friendsArray[j]] = [friendsArray[j], friendsArray[i]];
     }
 
-    return array;
+    return friendsArray;
 }
 
 function generateGiftingList() {
     let shuffledArray = shuffleArray();
     let raffleList = getElements('lista-sorteio')
+
+    if (friendsArray.length < 3) {
+        alert('Adiciona no minimo 3 pessoas na lista');
+        return;
+    }
 
     if (raffleList.innerHTML == '' ) {
         for (i = 0; i < shuffledArray.length; i++) {
@@ -75,4 +76,5 @@ function sortear() {
 function reiniciar() {
     getElements('lista-amigos').innerHTML = '';
     getElements('lista-sorteio').innerHTML = '';
+    friendsArray = [];
 }
